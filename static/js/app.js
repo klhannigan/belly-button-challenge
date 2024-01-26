@@ -73,6 +73,36 @@ function BubbleGraph(sampleId) {
     })
 }
 
+function Dashboard() {
+    console.log('Dashboard');
+
+    let selector = d3.select('#selDataset');
+
+    d3.json(url).then(data => {
+        console.log('Here is the data');
+
+        let sampleNames = data.names;
+        console.log('Here are the sample names:', sampleNames);
+
+        for (let i = 0; i < sampleNames.length; i++) {
+            let sampleId = sampleNames[i];
+            selector.append('option').text(sampleId).property('value', sampleId);
+        };
+
+        let initialId = selector.property('value');
+        console.log(`initialId = ${initialId}`);
+
+        BarGraph(initialId);
+
+        BubbleGraph(initialId);
+
+        MetaData(initialId);
+
+    });
+}
+
+Dashboard();
+
 function MetaData(sampleId) {
     console.log(`MetaData(${sampleId})`)
 
@@ -99,32 +129,3 @@ function optionChanged(sampleId) {
     MetaData(sampleId);
 }
 
-function Dashboard() {
-    console.log('Dashboard');
-
-    let selector = d3.select('#selDataset');
-
-    d3.json(url).then(data => {
-        console.log('Here is the data');
-
-        let sampleNames = data.names;
-        console.log('Here are the sample names:', sampleNames);
-
-        for (let i = 0; i < sampleNames.length; i++) {
-            let sampleId = sampleNames[i];
-            selector.append('option').text(sampleId).property('value', sampleId);
-        };
-
-        let initialId = selector.property('value');
-        console.log(`initialId = ${initialId}`);
-
-        wBarGraph(initialId);
-
-        BubbleGraph(initialId);
-
-        MetaData(initialId);
-
-    });
-}
-
-Dashboard();
